@@ -1,6 +1,15 @@
+
 // Ensures all imports in context.ts, input.ts, and output.ts are exported from library.ts
 const fs = require('fs');
 const path = require('path');
+
+// Also clean up dist/library.js if it exists
+const distLibraryPath = path.join(__dirname, '../dist/library.js');
+if (fs.existsSync(distLibraryPath)) {
+  let distContent = fs.readFileSync(distLibraryPath, 'utf8');
+  distContent = distContent.replace(/\n*export\s*\{[^}]+\}\s*;?\s*$/gm, '');
+  fs.writeFileSync(distLibraryPath, distContent, 'utf8');
+}
 
 const srcDir = path.join(__dirname, '../src');
 const libraryPath = path.join(srcDir, 'library.ts');
@@ -28,6 +37,9 @@ for (const file of scriptFiles) {
 
 // Remove all export { ... } from ...; lines (auto-generated or manual)
 let libraryContent = fs.readFileSync(libraryPath, 'utf8').replace(/^export\s+\{[^}]+\}\s+from\s+['"][^'"]+['"];?\s*$/gm, '');
+
+// Remove any export { ... } statement at the very end of the file (for JS output)
+libraryContent = libraryContent.replace(/\n*export\s*\{[^}]+\}\s*;?\s*$/gm, '');
 
 // For each import, ensure it's exported from library.ts
 for (const [name, sources] of Object.entries(imports)) {

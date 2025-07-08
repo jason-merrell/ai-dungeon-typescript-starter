@@ -1,12 +1,13 @@
 {
   "name": "ai-dungeon-typescript-starter",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "main": "dist/context.js",
+  "homepage": "https://github.com/jason-merrell/ai-dungeon-typescript-starter#readme",
   "bin": {
     "ai-dungeon-typescript-starter": "./scripts/cli.js"
   },
   "scripts": {
-    "build": "node scripts/ensure-library-exports.js && tsc && rollup -c rollup.config.mjs && node scripts/bundle.js",
+    "build": "node scripts/auto-globals.js inject && node scripts/ensure-library-exports.js && tsc && rollup -c rollup.config.mjs && node scripts/bundle.js && node scripts/cleanup.js && node scripts/auto-globals.js restore",
     "clean": "rm -rf dist"
   },
   "dependencies": {
