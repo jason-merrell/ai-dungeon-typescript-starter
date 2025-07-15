@@ -1,6 +1,6 @@
 {
 	"name": "ai-dungeon-typescript-starter",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"main": "dist/context.js",
 	"homepage": "https://github.com/jason-merrell/ai-dungeon-typescript-starter#readme",
 	"bin": {
